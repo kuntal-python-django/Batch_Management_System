@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Student</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+<br />
+<a href="{% url 'batch-list' %}"><button type="button" class="btn btn-primary">Go Back</button></a>
+  <br />
+  <h2 align="center"><u>Batch</u></h2>
+  <br />
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Batch Code</th>
+        <th>Batch Name</th>
+        <th>Class Join URL</th>
+        <th>Class Recording</th>
+        <th>Batch Timing</th>
+        <th>Attendance</th>
+        <th>Notice</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color: cornflowerblue;">{{batch.batch_id}}</td>
+        <td><b>{{batch.batch_name}}</b></td>
+        <td>
+          {% if batch.is_active == True %}
+            <!--<a href="{{batch.batch_url}}" target="_blank">{{batch.batch_url}}</a>-->
+            <b style="color: green;">Check your mail</b>
+          {% else %}
+            <b style="color: red;">Batch Closed</b>
+          {% endif %}
+        </td>
+        <td><a href="{{batch.class_video_url}}" target="_blank">Check Vidoes</a></td>
+        <td><b>{{batch.start_time}}</b> To <b>{{batch.end_time}}</b></td>
+        <td><a href="{{batch.attendance_url}}" target="_blank">Check</a></td>
+        <td>
+          {% if batch.is_active == True %}
+          <a href="{% url 'student-notice' batch.id %}" target="_blank">Open</a></td>
+          {% else %}
+          <p style="color: cornflowerblue;">Closed</p>
+          {% endif %}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div class="container"> <br>
+ <h2 align="center"><u>Student</u></h2>
+  <br />
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">
+  <br />
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Index</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Gender</th>
+        <th>Project</th>
+        <th>Grade</th>
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      {% for i in student %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.name}}</td>
+        <td>{{i.email}}</td>
+        <td>{{i.mobile}}</td>
+        <td>{{i.gender}}</td>
+        <td>{{i.project_submitted}}</td>
+        <td>
+            {% if i.grade == 1 %}
+            E
+            {% elif i.grade == 2 %}
+            A+
+            {% elif i.grade == 3 %}
+            A
+            {% elif i.grade == 4 %}
+            B+
+            {% elif i.grade == 5 %}
+            B
+            {% elif i.grade == 6 %}
+            C
+            {% else %}
+            NA
+            {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+
+
+</body>
+</html>

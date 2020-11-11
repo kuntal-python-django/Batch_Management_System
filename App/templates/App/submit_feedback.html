@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Submit Feedback</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+</style>
+</head>
+<body>
+
+<h2 align="center">Submit Your Feedback</h2>
+<h5 align="right" style="padding-right: 30px; font-size:18px;"><a href="{% url 'batch-list' %}">Go Back</a></h5>
+
+{% if status == 0 %}
+<div class="alert alert-danger">
+    <strong>Warning!</strong> We already have your Feedback
+</div>
+{% endif %}
+
+<div class="container">
+  <form action="{% url 'submit-feedback' %}" method="POST">
+  {% csrf_token %} 
+    <label for="fullname">Name</label>
+    <input type="text" id="fullname" name="fullname" placeholder="Your name.." required>
+
+    <label for="course">Course</label>
+    <select id="course" name="course" required>
+      <option disabled="disabled" selected="selected">Course</option>
+      <option value="Python">Python</option>
+      <option value="Django">Django</option>
+      <option value="Advanced Python">Advanced Python</option>
+      <option value="Java">Java</option>
+      <option value="Advanced Java">Advanced Java</option>
+      <option value="IOT">IOT</option>
+      <option value="React JS">React JS</option>
+      <option value="AWS">AWS</option>
+    </select>
+    {% comment %} <input type="text" id="course" name="course" placeholder="Your course.." required> {% endcomment %}
+
+    <label for="country">Country</label>
+    <select id="country" name="country" required>
+      <option disabled="disabled" selected="selected">Country</option>
+      <option value="India">India</option>
+      <option value="USA">USA</option>
+      <option value="Others">Others</option>
+    </select>
+
+    <label for="subject">Subject</label>
+    <textarea id="subject" name="subject" placeholder="Write something.." style="height:150px" required></textarea>
+
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+</body>
+</html>
